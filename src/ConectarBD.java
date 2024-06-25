@@ -4,8 +4,8 @@ import java.sql.SQLException;
 
 public class ConectarBD {
     private static final String JDBC_DRIVER = "org.postgresql.Driver";
-    private static final String DB_URL = "jdbc:postgresql://localhost:5432/hotel_reservacion";
-    private static final String USER = "admin";
+    private static final String DB_URL = "jdbc:postgresql://database-3.chovtoaxq67i.us-east-1.rds.amazonaws.com:5432/hotel_reservacion";
+    private static final String USER = "postgres";
     private static final String PASS = "root1234";
     private static Connection conn = null;
 

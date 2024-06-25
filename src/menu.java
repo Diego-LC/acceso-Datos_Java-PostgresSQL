@@ -1,3 +1,4 @@
+import java.sql.Date;
 import java.util.Scanner;
 
 class Menu {
@@ -46,6 +47,15 @@ class Menu {
         } catch (NumberFormatException e) {
             System.out.println("Por favor, ingrese un número válido.");
             return -1; // Valor inválido para repetir el bucle
+        }
+    }
+
+    Date leerFecha(Scanner scanner) {
+        try {
+            return Date.valueOf(scanner.nextLine());
+        } catch (IllegalArgumentException e) {
+            System.out.println("Por favor, ingrese una fecha válida (yyyy-mm-dd).");
+            return null; 
         }
     }
 

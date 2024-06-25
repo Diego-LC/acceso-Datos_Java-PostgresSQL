@@ -1,4 +1,4 @@
-## Getting Started
+# Getting Started
 
 Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
 
@@ -22,7 +22,7 @@ The `JAVA PROJECTS` view allows you to manage your dependencies. More details ca
 ## Script de creacion de la base de datos en postgresql
 
 ```sql
-CREATE DATABASE IF NOT EXISTS Hotel_reservacion;
+CREATE DATABASE Hotel_reservacion;
 
 \c Hotel_reservacion;
 

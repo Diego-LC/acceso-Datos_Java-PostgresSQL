@@ -2,6 +2,8 @@ import java.sql.*;
 import java.util.Scanner;
 
 public class InsertarSQL {
+    private Menu menu = new Menu();
+
     public void insertarDatosSQL(Connection conn, String sql) {
         try (Statement stmt = conn.createStatement()) {
             stmt.executeUpdate(sql);
@@ -21,19 +23,17 @@ public class InsertarSQL {
         Connection conn = conectarBD.getConnection();
         try (Statement stmt = conn.createStatement()) {
             System.out.println(" ");
-            System.out.print("Ingrese el ID de la habitación: ");
-            int habitacionId = Integer.parseInt(scanner.nextLine());
-            System.out.print("Ingrese el ID del usuario: ");
-            int usuarioId = Integer.parseInt(scanner.nextLine());
-            System.out.print("Ingrese la fecha de entrada (YYYY-MM-DD): ");
-            String fechaEntrada = scanner.nextLine();
-            System.out.print("Ingrese la fecha de salida (YYYY-MM-DD): ");
-            String fechaSalida = scanner.nextLine();
-            System.out.print("Ingrese el estado de la reserva: ");
-            String estado = scanner.nextLine();
+            System.out.println("Ingrese el ID de la habitacion a reservar: ");
+            int habitacionId = this.menu.leerOpcion(scanner);
+            System.out.println("Ingrese su RUT (sin puntos ni digito verificador): ");
+            int usuarioId = this.menu.leerOpcion(scanner);
+            System.out.println("Ingrese la fecha de entrada: ");
+            Date fechaEntrada = this.menu.leerFecha(scanner);
+            System.out.println("Ingrese la fecha de salida: ");
+            Date fechaSalida = this.menu.leerFecha(scanner);
 
-            String sql = "INSERT INTO Reserva (habitacion_id, usuario_id, fecha_entrada, fecha_salida, estado) "+
-            "VALUES (" + habitacionId + ", " + usuarioId + ", '" + fechaEntrada + "', '" + fechaSalida + "', '" + estado + "')";
+            String sql = "INSERT INTO Reserva (habitacion_id, usuario_id, fecha_entrada, fecha_salida) "+
+            "VALUES (" + habitacionId + ", " + usuarioId + ", '" + fechaEntrada + "', '" + fechaSalida + "')";
             System.out.println(sql);
             insertarDatosSQL(conn, sql);
         } catch (SQLException se) {

@@ -1,4 +1,5 @@
 import java.sql.Connection;
+import java.sql.Date;
 import java.util.Scanner;
 
 public class Main {
@@ -42,18 +43,21 @@ public class Main {
             switch (opcion) {
                 case 1:
                     //mostrar habitaciones junto a su estado de reserva
-                    this.bd.mostrarDatosDB("SELECT Habitacion.habitacion_id as id, numero, Reserva.estado as estado_reserva FROM Habitacion LEFT JOIN Reserva ON Habitacion.habitacion_id = Reserva.habitacion_id", conn);
+                    this.bd.mostrarDatosDB("SELECT habitacion_id as id, numero, estado FROM Habitacion", conn);
                     mostrarSubMenuHabitaciones(scanner);
                     break;
                 case 2:
                     System.out.println("Ingrese su RUT (sin puntos ni digito verificador): ");
                     int rut = this.menu.leerOpcion(scanner);
-                    this.bd.mostrarReservas("SELECT Reserva.reserva_id, Habitacion.numero as numero_habitacion, Reserva.usuario_id as rut, fecha_entrada, fecha_salida, estado " 
+                    boolean reservas = this.bd.mostrarReservas("SELECT Reserva.reserva_id, Habitacion.numero as numero_habitacion, Reserva.usuario_id as rut, fecha_entrada, fecha_salida, Habitacion.estado " 
                     +"FROM Reserva INNER JOIN Habitacion ON Reserva.habitacion_id = Habitacion.habitacion_id WHERE Reserva.usuario_id = " + rut, conn);
-                    mostrarSubMenuReservas(scanner);
+                    if (reservas) {
+                        mostrarSubMenuReservas(scanner);
+                    }
                     break;
                 case 3:
-                    mostrarSubMenuNuevaReserva(scanner);
+                    InsertarSQL insertar = new InsertarSQL();
+                    insertar.insertarEnBD(scanner);
                     break;
                 case 4:
                     return;
@@ -109,20 +113,5 @@ public class Main {
     }
 
     void mostrarSubMenuNuevaReserva(Scanner scanner) {
-        int opcion = 0;
-        do {
-            this.menu.mostrarSubMenuNuevaReserva();
-            opcion = this.menu.leerOpcion(scanner);
-            switch (opcion) {
-                case 1:
-                    InsertarSQL insertar = new InsertarSQL();
-                    insertar.insertarEnBD(scanner);
-                    break;
-                case 2:
-                    return;
-                default:
-                    this.menu.mostrarMensajeError();
-            }
-        } while (opcion != 2);
     }
 }

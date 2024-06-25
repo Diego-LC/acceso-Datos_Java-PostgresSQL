@@ -49,7 +49,7 @@ public class MostrarBD {
             se.printStackTrace();
         }
     }
-    public void mostrarReservas(String sql, Connection conn) {
+    public boolean mostrarReservas(String sql, Connection conn) {
         try {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
@@ -60,14 +60,19 @@ public class MostrarBD {
                     reservasFuturas += "Reserva: " + rs.getString(1) + " - Habitacion: " + rs.getString(2) + " - RUT: " + rs.getString(3) + " - Fecha de entrada: " + rs.getDate(4) + " - Fecha de salida: " + rs.getDate(5) + " - Estado: " + rs.getString(6) + "\n";
                 }
                 else {
-                    reservasAnteriores += "Reserva: " + rs.getString(1) + " - Habitacion: " + rs.getString(2) + " - RUT: " + rs.getString(3) + " - Fecha de entrada: " + rs.getDate(4) + " - Fecha de salida: " + rs.getDate(5) + "\n";
+                    reservasAnteriores += "Habitacion: " + rs.getString(2) + " - RUT: " + rs.getString(3) + " - Fecha de entrada: " + rs.getDate(4) + " - Fecha de salida: " + rs.getDate(5) + "\n";
                 }
             }
             System.out.println("\nReservas futuras:\n " + reservasFuturas);
             System.out.println("Reservas anteriores:\n " + reservasAnteriores);
+            if (reservasFuturas.equals("")) {
+                return false;
+            }
+            return true;
         } catch (SQLException se) {
             System.out.println("Error de JDBC");
             se.printStackTrace();
         }
+        return false;
     }
 }
