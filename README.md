@@ -59,8 +59,7 @@ CREATE TABLE Reserva (
     habitacion_id INTEGER REFERENCES Habitacion(habitacion_id),
     usuario_id INTEGER REFERENCES Usuario(rut),
     fecha_entrada DATE,
-    fecha_salida DATE,
-    estado VARCHAR(20)
+    fecha_salida DATE
 );
 
 -- Creación de la tabla Registro
@@ -115,10 +114,10 @@ INSERT INTO Hotel (nombre, ubicacion, categoria) VALUES
 
 -- Inserción de datos en la tabla Habitacion
 INSERT INTO Habitacion (hotel_id, numero, tipo, capacidad, estado) VALUES
-(1, 101, 'Simple', 1, 'Disponible'),
-(1, 102, 'Doble', 2, 'Disponible'),
-(2, 201, 'Suite', 4, 'Disponible'),
-(2, 202, 'Doble', 2, 'Disponible'),
+(1, 101, 'Simple', 1, 'Reservada'),
+(1, 102, 'Doble', 2, 'Reservada'),
+(2, 201, 'Suite', 4, 'Reservada'),
+(2, 202, 'Doble', 2, 'Reservada'),
 (3, 301, 'Simple', 1, 'Disponible'),
 (3, 302, 'Doble', 2, 'Disponible');
 
@@ -130,10 +129,10 @@ INSERT INTO Usuario (rut, nombre, apellido, email, telefono) VALUES
 
 -- Inserción de datos en la tabla Reserva
 INSERT INTO Reserva (habitacion_id, usuario_id, fecha_entrada, fecha_salida) VALUES
-(1, 12345678, '2024-05-01', '2024-05-05'),
-(2, 87654321, '2024-05-10', '2024-05-15'),
-(3, 45678912, '2024-05-01', '2024-05-07'),
-(4, 12345678, '2023-12-01', '2023-12-10');
+(1, 12345678, '2024-09-01', '2024-09-05'),
+(2, 87654321, '2024-09-10', '2024-09-15'),
+(3, 45678912, '2024-10-01', '2024-10-07'),
+(4, 12345678, '2024-12-01', '2024-12-10');
 
 INSERT INTO Registro_reservas (habitacion_id, usuario_id, fecha_entrada, fecha_salida) VALUES
 (1, 12345678, '2023-05-01', '2023-05-05'),

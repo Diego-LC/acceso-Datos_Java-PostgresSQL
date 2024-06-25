@@ -49,23 +49,26 @@ public class MostrarBD {
             se.printStackTrace();
         }
     }
-    public boolean mostrarReservas(String sql, Connection conn) {
+    public boolean mostrarReservas(int rut, Connection conn) {
         try {
             Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(sql);
-            String reservasFuturas = "";
+            String sql1 = "SELECT Reserva.reserva_id, Habitacion.numero as numero_habitacion, Reserva.usuario_id as rut, fecha_entrada, fecha_salida, Habitacion.estado " 
+            +"FROM Reserva INNER JOIN Habitacion ON Reserva.habitacion_id = Habitacion.habitacion_id WHERE Reserva.usuario_id = " + rut;
+            String sql2 = "SELECT Registro_reservas.registro_id, Habitacion.numero as numero_habitacion, Registro_reservas.usuario_id as rut, fecha_entrada, fecha_salida, Habitacion.estado " 
+            +"FROM Registro_reservas INNER JOIN Habitacion ON Registro_reservas.habitacion_id = Habitacion.habitacion_id WHERE Registro_reservas.usuario_id = " + rut;
+            ResultSet rs = stmt.executeQuery(sql1);
+            String reservasActuales = "";
             String reservasAnteriores = "";
             while (rs.next()) {
-                if (rs.getDate(4).after(new java.util.Date())) {
-                    reservasFuturas += "Reserva: " + rs.getString(1) + " - Habitacion: " + rs.getString(2) + " - RUT: " + rs.getString(3) + " - Fecha de entrada: " + rs.getDate(4) + " - Fecha de salida: " + rs.getDate(5) + " - Estado: " + rs.getString(6) + "\n";
-                }
-                else {
-                    reservasAnteriores += "Habitacion: " + rs.getString(2) + " - RUT: " + rs.getString(3) + " - Fecha de entrada: " + rs.getDate(4) + " - Fecha de salida: " + rs.getDate(5) + "\n";
-                }
+                reservasActuales += "Reserva: " + rs.getString(1) + " - Habitacion: " + rs.getString(2) + " - RUT: " + rs.getString(3) + " - Fecha de entrada: " + rs.getDate(4) + " - Fecha de salida: " + rs.getDate(5) + " - Estado: " + rs.getString(6) + "\n";
             }
-            System.out.println("\nReservas futuras:\n " + reservasFuturas);
+            ResultSet rs2 = stmt.executeQuery(sql2);
+            while (rs2.next()) {
+                reservasAnteriores += "Reserva: " + rs2.getString(1) + " - Habitacion: " + rs2.getString(2) + " - RUT: " + rs2.getString(3) + " - Fecha de entrada: " + rs2.getDate(4) + " - Fecha de salida: " + rs2.getDate(5) + "\n";
+            }
+            System.out.println("\nReservas actuales:\n " + reservasActuales);
             System.out.println("Reservas anteriores:\n " + reservasAnteriores);
-            if (reservasFuturas.equals("")) {
+            if (reservasActuales.equals("")) {
                 return false;
             }
             return true;

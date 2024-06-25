@@ -1,5 +1,4 @@
 import java.sql.Connection;
-import java.sql.Date;
 import java.util.Scanner;
 
 public class Main {
@@ -49,8 +48,7 @@ public class Main {
                 case 2:
                     System.out.println("Ingrese su RUT (sin puntos ni digito verificador): ");
                     int rut = this.menu.leerOpcion(scanner);
-                    boolean reservas = this.bd.mostrarReservas("SELECT Reserva.reserva_id, Habitacion.numero as numero_habitacion, Reserva.usuario_id as rut, fecha_entrada, fecha_salida, Habitacion.estado " 
-                    +"FROM Reserva INNER JOIN Habitacion ON Reserva.habitacion_id = Habitacion.habitacion_id WHERE Reserva.usuario_id = " + rut, conn);
+                    boolean reservas = this.bd.mostrarReservas(rut, conn);
                     if (reservas) {
                         mostrarSubMenuReservas(scanner);
                     }
@@ -76,7 +74,8 @@ public class Main {
                 case 1:
                     System.out.println("Ingrese el id de la habitacion: ");
                     int idHabitacion = this.menu.leerOpcion(scanner);
-                    this.bd.mostrarDatosDB("SELECT * FROM Habitacion WHERE habitacion_id = " + idHabitacion, conn);
+                    this.bd.mostrarDatosDB("SELECT Habitacion.habitacion_id as id, Habitacion.numero, Habitacion.tipo, Habitacion.capacidad, Habitacion.estado, Hotel.nombre as Hotel, Hotel.ubicacion FROM Habitacion "+
+                    "INNER JOIN Hotel ON Habitacion.hotel_id = Hotel.hotel_id WHERE habitacion_id = " + idHabitacion, conn);
                     break;
                 case 2:
                     return;
