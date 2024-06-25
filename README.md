@@ -77,6 +77,7 @@ CREATE OR REPLACE FUNCTION insertar_en_registro() RETURNS TRIGGER AS $$
 BEGIN
     INSERT INTO Registro_reservas (habitacion_id, usuario_id, fecha_entrada, fecha_salida)
     VALUES (OLD.habitacion_id, OLD.usuario_id, OLD.fecha_entrada, OLD.fecha_salida);
+    UPDATE Habitacion SET estado = 'Disponible' WHERE habitacion_id = OLD.habitacion_id;
     RETURN OLD;
 END;
 $$ LANGUAGE plpgsql;
@@ -86,6 +87,19 @@ CREATE TRIGGER trigger_insertar_en_registro
 AFTER DELETE ON Reserva
 FOR EACH ROW
 EXECUTE FUNCTION insertar_en_registro();
+
+CREATE OR REPLACE FUNCTION actualizar_estado_habitacion() RETURNS TRIGGER AS $$
+BEGIN
+    UPDATE Habitacion SET estado = 'Reservada' WHERE habitacion_id = NEW.habitacion_id;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Trigger al insertar una reserva actualiza el estado de la habitacion
+CREATE TRIGGER trigger_actualizar_estado_habitacion
+AFTER INSERT ON Reserva
+FOR EACH ROW
+EXECUTE FUNCTION actualizar_estado_habitacion();
 
 -- Función para mover reservas cumplidas a la tabla Registro
 CREATE OR REPLACE FUNCTION mover_reservas_cumplidas() RETURNS TRIGGER AS $$

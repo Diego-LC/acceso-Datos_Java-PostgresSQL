@@ -6,6 +6,7 @@ public class Main {
     private MostrarBD bd = new MostrarBD();
     private ConectarBD conectarBD = new ConectarBD();
     private Connection conn = conectarBD.getConnection();
+    private int rut = 0;
 
     public static void main(String[] args) {
         Main main = new Main();
@@ -47,7 +48,7 @@ public class Main {
                     break;
                 case 2:
                     System.out.println("Ingrese su RUT (sin puntos ni digito verificador): ");
-                    int rut = this.menu.leerOpcion(scanner);
+                    rut = this.menu.leerOpcion(scanner);
                     boolean reservas = this.bd.mostrarReservas(rut, conn);
                     if (reservas) {
                         mostrarSubMenuReservas(scanner);
@@ -102,6 +103,9 @@ public class Main {
                     int idEliminar = this.menu.leerOpcion(scanner);
                     EliminarDatosSQL eliminar = new EliminarDatosSQL();
                     eliminar.eliminarEnBD(scanner, Integer.toString(idEliminar));
+                    if (rut != 0) {
+                        this.bd.mostrarReservas(rut, conn);
+                    }
                     break;
                 case 3:
                     return;

@@ -60,14 +60,15 @@ public class MostrarBD {
             String reservasActuales = "";
             String reservasAnteriores = "";
             while (rs.next()) {
-                reservasActuales += "Reserva: " + rs.getString(1) + " - Habitacion: " + rs.getString(2) + " - RUT: " + rs.getString(3) + " - Fecha de entrada: " + rs.getDate(4) + " - Fecha de salida: " + rs.getDate(5) + " - Estado: " + rs.getString(6) + "\n";
+                reservasActuales += "Id: " + rs.getString(1) + " - Habitacion: " + rs.getString(2) + " - RUT: " + rs.getString(3) + " - Fecha de entrada: " + rs.getDate(4) + " - Fecha de salida: " + rs.getDate(5) + " - Estado: " + rs.getString(6) + "\n";
             }
             ResultSet rs2 = stmt.executeQuery(sql2);
             while (rs2.next()) {
-                reservasAnteriores += "Reserva: " + rs2.getString(1) + " - Habitacion: " + rs2.getString(2) + " - RUT: " + rs2.getString(3) + " - Fecha de entrada: " + rs2.getDate(4) + " - Fecha de salida: " + rs2.getDate(5) + "\n";
+                reservasAnteriores += "Habitacion: " + rs2.getString(2) + " - RUT: " + rs2.getString(3) + " - Fecha de entrada: " + rs2.getDate(4) + " - Fecha de salida: " + rs2.getDate(5) + "\n";
             }
             System.out.println("\nReservas actuales:\n " + reservasActuales);
-            System.out.println("Reservas anteriores:\n " + reservasAnteriores);
+            System.out.println("Reservas anteriores o eliminadas:\n " + reservasAnteriores);
+
             if (reservasActuales.equals("")) {
                 return false;
             }
